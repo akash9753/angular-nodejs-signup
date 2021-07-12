@@ -1,18 +1,23 @@
 const express = require('express')
-
 const db = require('../db')
 const utils = require('../utils')
 const mailer = require('../mailer')
 
-
 const router = express.Router()
 
-// /user/register
-router.post('/register',(request, response)=>{
+router.get('/', (request, response) => {
+  console.log('GET / is called')
+  const statement = `select * from product`
+  db.query(statement, (error, products) => {
+    response.send(utils.sendResult(error, products))
+  })
+})
+
+router.post('/',(request, response)=>{
     console.log(request.body)
-      const{fullname, address, email, phonenumber, age} = request.body
-      const statement = `insert into user1(fullname, address,phonenumber,email,age)
-       values('${fullname}','${address}','${phonenumber}','${email}','${age}')`
+      const{title, description, price} = request.body
+      const statement = `insert into product(title, description, price)
+       values('${title}','${description}','${price}')`
        db.query(statement,(error,dbResult)=>{
           if(error){
                //error occured
@@ -23,13 +28,11 @@ router.post('/register',(request, response)=>{
             <h1>Welcome to Motion Soft Pvt Ltd</h1>
             <h2>Registration Successful </h2>
             <h2>Pls Login</h2>`
-            mailer.sendEmail(email,subject,body, (emailError,info) =>{
+            mailer.sendEmail('akash9753@gmail.com',subject,body, (emailError,info) =>{
                 response.send(utils.sendSuccess(dbResult))
             })
-         }
-         })
+        }
+    })
 })
-
-
 
 module.exports = router

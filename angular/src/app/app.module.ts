@@ -6,17 +6,21 @@ import { AppComponent } from './app.component';
 
 import { SixthComponent } from './sixth/sixth.component';
 import { FormsModule } from '@angular/forms';
+import { ProductListComponent } from './product-list/product-list.component';
+import {HttpClientModule} from '@angular/common/http'
 
 @NgModule({
   declarations: [
     AppComponent,
-    
-    SixthComponent
+    SixthComponent,
+    ProductListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
