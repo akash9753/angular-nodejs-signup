@@ -5,7 +5,7 @@ const mailer = require('../mailer')
 
 const router = express.Router()
 
-router.get('/', (request, response) => {
+router.get('/list', (request, response) => {
   console.log('GET / is called')
   const statement = `select * from product`
   db.query(statement, (error, products) => {
@@ -15,13 +15,14 @@ router.get('/', (request, response) => {
 
 router.post('/',(request, response)=>{
     console.log(request.body)
-      const{title, description, price} = request.body
-      const statement = `insert into product(title, description, price)
-       values('${title}','${description}','${price}')`
+      const{title, description, price, category} = request.body
+      const statement = `insert into product(title, description, price, category)
+       values('${title}','${description}','${price}','${category}')`
        db.query(statement,(error,dbResult)=>{
           if(error){
                //error occured
                response.send(utils.sendError(error))
+               console.log(error)
            }else{
             const subject = `Welcome to Motion Soft Pvt Ltd`
             const body = `
